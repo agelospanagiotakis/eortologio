@@ -1,2 +1,7 @@
 # eortologio
-a simple calendar based greek orthodox church calendar
+Α simple calendar based Greek - Orthodox church name-date calendar
+# Ιστορικό
+Μια μικρή παραλαγή της εφαρμογή εορτολογίου που είχα κατεβάσει και εγκαταστήσει λίγο παλαιότερα 
+(το εορτολόγιo screenlet που έφτιαξε ο Μισδανίτης Δημήτρης από το http://code.google.com/p/eortologio/) 
+ύστερα από την εμφάνιση του στο linux format.
+Διάβασα τον κώδικα και εφόσον δεν κάνει τίποτα τρομερό είπα να το κάνω μια παραλλαγή της εφαρμογής δοκιμάζοντας τις λειτουργίες του Gambas.
