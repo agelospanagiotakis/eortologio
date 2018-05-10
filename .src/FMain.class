@@ -1,0 +1,272 @@
+' Gambas class file
+
+Static Public kinites As String[] = ["-70", "Τελώνου και Φαρισαίου - Αρχή Τριωδίου", "-63", "Του Ασώτου", "-59", "Τσικνοπέμπτη", "-56", "Της Απόκρεω", "-49", "Τυροφάγου", "-48", "Καθαρά Δευτέρα", "-43", "Αγίου Θεοδώρου (Θεόδωρος, Θεοδώρα, Δώρα, Ντόρα, Θόδωρος, Θοδώρα, Θοδωρής, Θοδωράκης, Θώδης, Θώδος, Δώρης)", "-42", "Κυριακή της Ορθοδοξίας (Ορθοδοξία, Λωξάνδρα, Λωξάντρα, Ρωξάνη)", "-35", "Γρηγορίου του Παλαμά (Γρηγόριος, Γρηγόρης, Γρηγορία, Γόλης) (σημείωση: εορτάζεται και στις 14 Νοε)", "-8", "Σάββατο του Λαζάρου (Λάζαρος, Λάζος)", "-7", "Κυριακή των Βαίων (Βάϊος, Βάϊα, Βάγια, Βαία, Δάφνη)", "-6", "Μεγάλη Δευτέρα (Πάγκαλος)", "-5", "Μεγάλη Τρίτη", "-4", "Μεγάλη Τετάρτη", "-3", "Μεγάλη Πέμπτη", "-2", "Μεγάλη Παρασκευή", "-1", "Μεγάλο Σάββατο", "0", "ΤΟ ΑΓΙΟ ΠΑΣΧΑ (Αναστάσιος, Αναστασία, Τάσος, Αναστάσης, Ανέστης, Λάμπρος, Λαμπρινή, Λαμπρίνα, Πασχάλης, Πασχαλίνα, Λίνα, Στασινός)", "+1", "2α Διακαινησίμου - Δευτέρα", "+2", "3η Διακαινησίμου - Τρίτη (Λαμπροτρίτη) - (Ραφαήλ, Νικόλαος και Ειρήνη Αγιοι Μυτιλήνης)", "+3", "4η Διακαινησίμου - Τετάρτη (Θεοχάρης)", "+4", "5η Διακαινησίμου - Πέμπτη", "+5", "Ζωοδόχου Πηγής Πηγή, Κρήνη, Κρηνιώ, Ζήσης, Ζησούλα, Ζήσιμος, Ζωή, Ζώης, Ζωϊτσα, Ζωζώ, Παναγιώτης, Πάνος, Πανούσος, Παναγής, Πανάγος, Γιώτης, Παναγιώτα, Γιώτα, Παναγιούλα, Γιούλα, Παναγούλα", "+6", "7η Διακαινησίμου - Σαββάτο", "+7", "Του Θωμά (Θωμάς, Θωμαή, Τόμας)", "+14", "Των Μυροφόρων (Μυροφόρα)", "+39", "Ανάληψη του Χριστού (Νεφέλη)", "+49", "Πεντηκοστή", "+50", "Αργία: Αγ. Πνεύματος (Τριάδα, Τριάς, Κόρη, Κορίνα, Κορίνος)", "+56", "Αγίων Πάντων"]
+Public pathOfData As String = "/home/agelos/eortologio/eortologio/eortes.dat"
+Public SelectedDate As Date
+
+Public Sub _new()
+
+End
+
+Public Sub Form_Open()
+DateChooser1.Value = Now
+LoadGiortes
+End
+Public Sub Form_Resize()
+Me.Text = "Εορτολόγιο"
+DateChooser1.Left = 5
+DateChooser1.Width = DateChooser1.Parent.Width - 10
+DateChooser1.Top = 5
+DateChooser1.Height = DateChooser1.Parent.Height / 2 - 100 - 10
+
+TextArea1.Left = 5
+TextArea1.Width = DateChooser1.Parent.width - 10
+TextArea1.Top = DateChooser1.Top + DateChooser1.Height + 5
+TextArea1.Height = DateChooser1.Parent.Height / 2 + 100 - btnPasxa.Height - 10
+
+btnPasxa.Left = 5
+btnPasxa.Width = btnPasxa.Parent.width - 10
+btnPasxa.Top = TextArea1.Top + TextArea1.Height + 5
+'btnPasxa.Height = 100
+
+End
+
+Public Sub btnPasxa_Click()
+  Dim PasxaDate As Date
+  Dim day1 As Integer
+  Dim month1 As Integer
+  Dim year1 As Integer
+  Dim diafora As String
+  Dim thisDate As Date = DateChooser1.Value
+  SelectedDate = DateChooser1.Value
+  PasxaDate = CalculatePasxaDate(Year(SelectedDate))
+  day1 = Day(PasxaDate)
+  month1 = Month(PasxaDate)
+  year1 = Year(PasxaDate)
+  
+  diafora = posoApexoumeApoPasxa(day1, month1, year1, thisDate)
+  TextArea1.Clear()
+  TextArea1.Add("Ημερομηνία Πάσχα: " & PasxaDate)
+  TextArea1.Add("Απέχουμε απο το Πάσχα: " & diafora & " ημέρες")
+  
+  TextArea1.Add("Το πάσχα το " & year1 & " πέφτει στις " & Day(PasxaDate) & "/" & Month(PasxaDate))
+  
+End
+
+
+Public Sub DateChooser1_Change()
+  LoadGiortes
+End
+
+Public Sub LoadGiortes()
+
+Dim strStatic As String[]
+Dim StrGiorth As String
+Dim KinitesGiortes As String[]
+
+TextArea1.Clear()
+TextArea1.Text = TextArea1.Text & ("Ημερομηνία : " & DateChooser1.Value)
+
+strStatic = StaticGiortesonDate(DateChooser1.Value)
+KinitesGiortes = KinitesGiortesonDate(DateChooser1.Value)
+If strStatic.Count > 0 Or KinitesGiortes.count > 0 Then
+  TextArea1.Text = TextArea1.Text & "Σήμερα Γιορτάζουν :"
+Else
+  TextArea1.Text = TextArea1.Text & "Σήμερα δεν γιορτάζει κανείς"
+End If
+
+
+If strStatic.Count = 0 Then
+'TextArea1.Text = TextArea1.Text & -------- Δεν υπάρχουν Σταθερές Εορτές--------"
+Else 
+'TextArea1.Text = TextArea1.Text & "-------- Σταθερές --------"
+For Each StrGiorth In strStatic
+
+TextArea1.Text = TextArea1.Text & "\n" & StrGiorth 
+Next
+End If
+
+
+If KinitesGiortes.Count = 0 Then
+'TextArea1.Text = TextArea1.Text & -------- Δεν υπάρχουν Κινητές Εορτές--------"
+Else
+'TextArea1.Text = TextArea1.Text & "-------- Κινητές --------"
+For Each StrGiorth In KinitesGiortes
+  TextArea1.Text = TextArea1.Text & "\n" & StrGiorth
+Next
+End If
+
+
+End
+
+
+Public Function KinitesGiortesonDate(DateSelected As Date) As String[]
+Dim res As New String[]
+Dim kinith As String
+Dim iKinithDiaforaGiorths As Integer
+Dim iKinith As Integer
+
+Dim day1 As Integer
+Dim month1 As Integer
+Dim year1 As Integer
+Dim diaforaHmerwnApoPasxa As Integer
+
+day1 = Day(DateSelected)
+month1 = Month(DateSelected)
+year1 = Year(DateSelected)
+
+diaforaHmerwnApoPasxa = posoApexoumeApoPasxa(day1, month1, year1, DateSelected)
+'res.Add("Διαφορά ημερών απο το πάσχα :" & diaforaHmerwnApoPasxa)
+For iKinith = 0 To kinites.Count - 1 Step 2 'πάρε ανα δυο τα νούμερα
+iKinithDiaforaGiorths = kinites[iKinith]
+'res.Add(iKinithDiaforaGiorths & " " & diaforaHmerwnApoPasxa)
+If diaforaHmerwnApoPasxa = iKinithDiaforaGiorths Then
+res.Add(kinites[iKinith + 1])
+End If
+Next
+Return res
+End
+
+Public Function StaticGiortesonDate(DateSelected As Date) As String[]
+Dim res As New String[]
+Dim MyDay As Integer
+Dim myMonth As Integer
+Dim myYear As Integer
+Dim arr_strings As String[]
+
+Dim LineCheckisANewDate As Boolean = False
+Dim strToCheck As String
+Dim numOfLines As Integer
+Dim iLineCounter As Integer
+Dim foundIandAfter As Integer
+Dim thisSTR As String
+Dim foundSTR As String
+Dim found As Boolean = False
+
+MyDay = Day(DateSelected)
+myMonth = Month(DateSelected)
+myYear = Year(DateSelected)
+
+'TextArea1.Clear()
+'res.Add("Ημέρα: " & MyDay)
+'res.Add("Μήνας: " & myMonth)
+'res.Add("Χρονιά: " & myYear)
+
+arr_strings = Split(File.LOAD(pathOfData), "\n")
+numOfLines = arr_strings.Count
+
+
+strToCheck = MyDay & "/" & myMonth & " : "
+'res.Add(strToCheck)
+
+
+For iLineCounter = 0 To numOfLines - 1
+thisSTR = arr_strings[iLineCounter]
+If Comp(strToCheck, thisSTR) = 0 Then
+'TextArea1.Add(strToCheck & " -- >" & thisSTR)
+For foundIandAfter = iLineCounter + 1 To numOfLines - 1
+foundSTR = arr_strings[foundIandAfter]
+If Comp(Right$(foundSTR, 2), ": ") = 0 Then
+Exit
+Else
+'foundSTR = Replace(foundSTR, " ", "")
+foundSTR = Trim(foundSTR)
+res.Add(foundSTR)
+found = True
+End If
+Next
+End If
+If found Then
+'res.Add("Found and quiting")
+Exit
+End If
+
+Next
+
+Return res
+End
+
+'epistrefei 1 an einai disekto etos k 0 an den einai
+Public Function IsLeapYear(aYear As Integer) As Boolean
+If (((aYear Mod 4 == 0) And (aYear Mod 100 <> 0)) Or (aYear Mod 400 == 0)) Then
+Return True
+End If
+Return False
+End
+
+'H sinartisi epistrefei ton arithmo ton imeron tou mina
+Public Function howManyDays(aMonth As Integer, aYear As Integer) As Integer
+If aMonth == 2 Then
+If IsleapYear(aYear) == 1 Then
+Return 29
+End If
+Return 28
+End If
+If (aMonth == 4) Or (aMonth == 6) Or (aMonth == 9) Or (aMonth == 11) Then
+Return 30
+End If
+Return 31
+End
+
+'#epistrefei pote einai TO pasxa
+Public Function CalculatePasxaDate(aYear As Integer) As Date
+Dim pasxa_month As Integer = 4
+Dim pasxa_day As Integer
+Dim mndays As Integer
+Dim returnPasxaDate As Date
+pasxa_day = ((19 * (aYear Mod 19) + 16) Mod 30) + ((2 * (ayear Mod 4)) + (4 * (ayear Mod 7)) + (6 * ((19 * (ayear Mod 19) + 16) Mod 30))) Mod 7 + 3
+
+mndays = howManyDays(pasxa_month, aYear)
+
+If pasxa_day > mndays Then
+pasxa_day -= mndays
+pasxa_month = pasxa_month + 1
+End If
+
+returnPasxaDate = Date(ayear, pasxa_month, pasxa_day, 0, 0, 0)
+Return returnPasxaDate
+End Function
+
+
+
+
+'#poso apexei h dothisa Date apo TO pasxa
+Public Function posoApexoumeApoPasxa(day1 As Integer, month1 As Integer, year1 As Integer, thisDate As Date) As Integer
+Dim dateOfPasxa As Date = CalculatePasxaDate(Year(thisDate))
+Dim diafora As Integer
+' DIM pasxa_month AS Integer = Year(dateOfPasxa)
+' DIM pasxa_day AS Integer = Day(dateOfPasxa)
+' DIM dm AS Integer
+' DIM metr AS Integer
+' IF month1 < diafora =" howManyDays(month1," dm =" pasxa_month" metr =" dm"> 0
+' diafora = diafora + howManyDays(pasxa_month - metr, year1)
+' metr = metr - 1
+' WEND
+' diafora = (diafora + pasxa_day) * (-1) 
+' ELSE
+' IF month1 > pasxa_month THEN
+' diafora = day1
+' dm = Int(month1) - Int(pasxa_month)
+' metr = dm - 1
+' WHILE metr > 0
+' diafora = Int(diafora) + Int(howManyDays(pasxa_month + metr, year1))
+' metr = metr - 1
+' WEND
+' diafora = diafora + (howManyDays(pasxa_month, year1) - pasxa_day)
+' ELSE IF month1 == pasxa_month THEN
+' diafora = day1 - pasxa_day
+' END IF
+' END IF
+
+diafora = DateDiff(thisDate, dateOfPasxa, gb.day)
+'PRINT thisDate
+'PRINT dateOfPasxa
+'PRINT DateDiff(thisDate, dateOfPasxa, gb.Day)
+Return diafora
+End Function
+
+Public Sub TextArea1_Click()
+
+  
+
+End

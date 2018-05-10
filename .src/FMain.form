@@ -1,0 +1,16 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,64,64)
+  { DateChooser1 DateChooser
+    MoveScaled(0,0,64,25)
+  }
+  { btnPasxa Button
+    MoveScaled(0,56,63,7)
+    Text = ("Πότε πέφτει το πάσχα;")
+  }
+  { TextArea1 TextArea
+    MoveScaled(1,26,62,29)
+    Text = (" ")
+  }
+}
