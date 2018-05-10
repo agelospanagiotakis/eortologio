@@ -11,4 +11,5 @@ vgcore.*
 .lang/*.pot
 .gambas/*
 .settings
+!.src/*
 #----

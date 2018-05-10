@@ -46,10 +46,10 @@ Public Sub btnPasxa_Click()
   
   diafora = posoApexoumeApoPasxa(day1, month1, year1, thisDate)
   TextArea1.Clear()
-  TextArea1.Add("Ημερομηνία Πάσχα: " & PasxaDate)
-  TextArea1.Add("Απέχουμε απο το Πάσχα: " & diafora & " ημέρες")
+  TextArea1.Text = ("Ημερομηνία Πάσχα: " & PasxaDate)
+  TextArea1.Text = TextArea1.Text & ("Απέχουμε απο το Πάσχα: " & diafora & " ημέρες")
   
-  TextArea1.Add("Το πάσχα το " & year1 & " πέφτει στις " & Day(PasxaDate) & "/" & Month(PasxaDate))
+  TextArea1.Text = TextArea1.Text & ("Το πάσχα το " & year1 & " πέφτει στις " & Day(PasxaDate) & "/" & Month(PasxaDate))
   
 End
 

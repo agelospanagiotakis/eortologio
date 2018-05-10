@@ -4,6 +4,7 @@
   MoveScaled(0,0,64,64)
   { DateChooser1 DateChooser
     MoveScaled(0,0,64,25)
+    Font = Font["+2"]
   }
   { btnPasxa Button
     MoveScaled(0,56,63,7)
@@ -11,6 +12,7 @@
   }
   { TextArea1 TextArea
     MoveScaled(1,26,62,29)
+    Font = Font["+6"]
     Text = (" ")
   }
 }
