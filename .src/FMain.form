@@ -1,24 +1,25 @@
 # Gambas Form File 3.0
 
 { Form Form
-  MoveScaled(0,0,64,64)
+  MoveScaled(0,0,72,64)
   Text = ("Εορτολόγιο Ορθόδοξων Χριστικανικών εορτών")
   Icon = Picture["calendar.png"]
-  Arrangement = Arrange.Vertical
   AutoResize = True
   { DateChooser1 DateChooser
-    MoveScaled(0,0,64,25)
+    MoveScaled(0,0,72,25)
     Font = Font["+2"]
-    Border = False
+    Expand = True
   }
   { TextArea1 TextArea
-    MoveScaled(1,26,62,29)
+    MoveScaled(0,25,72,32)
     Font = Font["+6"]
     Expand = True
-    Text = (" ")
+    Text = ("Επιλέξτε μια ημερομηνία για να δειτε την εορτή")
+    ScrollBar = Scroll.Vertical
   }
   { btnPasxa Button
-    MoveScaled(0,56,63,7)
+    MoveScaled(0,57,72,7)
+    Expand = True
     Text = ("Πότε πέφτει το πάσχα;")
   }
 }
