@@ -1,12 +1,12 @@
 # Gambas Project File 3.0
-Title=Eortologio Greek Orthofox Church Name Date Calendar
+Title=Eortologio - Greek Orthofox Church name days Calendar
 Startup=FMain
 Icon=calendar.png
 Version=1.1.6
 Component=gb.image
 Component=gb.gtk3
 Component=gb.form
-Description="Eortologio Greek Orthofox Church Name Date Calendar"
+Description="Eortologio - Greek Orthofox Church name days Calendar\nΕορτολόγιο Ορθόδοξων Χριστικανικών εορτών"
 Authors="AngelosPanagiotakis"
 TabSize=2
 Language=en_US
