@@ -1,7 +1,7 @@
 ' Gambas class file
 
 Static Public kinites As String[] = ["-70", "Τελώνου και Φαρισαίου - Αρχή Τριωδίου", "-63", "Του Ασώτου", "-59", "Τσικνοπέμπτη", "-56", "Της Απόκρεω", "-49", "Τυροφάγου", "-48", "Καθαρά Δευτέρα", "-43", "Αγίου Θεοδώρου (Θεόδωρος, Θεοδώρα, Δώρα, Ντόρα, Θόδωρος, Θοδώρα, Θοδωρής, Θοδωράκης, Θώδης, Θώδος, Δώρης)", "-42", "Κυριακή της Ορθοδοξίας (Ορθοδοξία, Λωξάνδρα, Λωξάντρα, Ρωξάνη)", "-35", "Γρηγορίου του Παλαμά (Γρηγόριος, Γρηγόρης, Γρηγορία, Γόλης) (σημείωση: εορτάζεται και στις 14 Νοε)", "-8", "Σάββατο του Λαζάρου (Λάζαρος, Λάζος)", "-7", "Κυριακή των Βαίων (Βάϊος, Βάϊα, Βάγια, Βαία, Δάφνη)", "-6", "Μεγάλη Δευτέρα (Πάγκαλος)", "-5", "Μεγάλη Τρίτη", "-4", "Μεγάλη Τετάρτη", "-3", "Μεγάλη Πέμπτη", "-2", "Μεγάλη Παρασκευή", "-1", "Μεγάλο Σάββατο", "0", "ΤΟ ΑΓΙΟ ΠΑΣΧΑ (Αναστάσιος, Αναστασία, Τάσος, Αναστάσης, Ανέστης, Λάμπρος, Λαμπρινή, Λαμπρίνα, Πασχάλης, Πασχαλίνα, Λίνα, Στασινός)", "+1", "2α Διακαινησίμου - Δευτέρα", "+2", "3η Διακαινησίμου - Τρίτη (Λαμπροτρίτη) - (Ραφαήλ, Νικόλαος και Ειρήνη Αγιοι Μυτιλήνης)", "+3", "4η Διακαινησίμου - Τετάρτη (Θεοχάρης)", "+4", "5η Διακαινησίμου - Πέμπτη", "+5", "Ζωοδόχου Πηγής Πηγή, Κρήνη, Κρηνιώ, Ζήσης, Ζησούλα, Ζήσιμος, Ζωή, Ζώης, Ζωϊτσα, Ζωζώ, Παναγιώτης, Πάνος, Πανούσος, Παναγής, Πανάγος, Γιώτης, Παναγιώτα, Γιώτα, Παναγιούλα, Γιούλα, Παναγούλα", "+6", "7η Διακαινησίμου - Σαββάτο", "+7", "Του Θωμά (Θωμάς, Θωμαή, Τόμας)", "+14", "Των Μυροφόρων (Μυροφόρα)", "+39", "Ανάληψη του Χριστού (Νεφέλη)", "+49", "Πεντηκοστή", "+50", "Αργία: Αγ. Πνεύματος (Τριάδα, Τριάς, Κόρη, Κορίνα, Κορίνος)", "+56", "Αγίων Πάντων"]
-Public pathOfData As String = "/home/agelos/eortologio/eortologio/eortes.dat"
+Public pathOfData As String = "/opt/namedays.db"
 Public SelectedDate As Date
 
 Public Sub _new()
@@ -43,13 +43,14 @@ Public Sub btnPasxa_Click()
   day1 = Day(PasxaDate)
   month1 = Month(PasxaDate)
   year1 = Year(PasxaDate)
-  
-  diafora = posoApexoumeApoPasxa(day1, month1, year1, thisDate)
+  'day1, month1, year1,
+  'diafora = posoApexoumeApoPasxa(day1, month1, year1, thisDate)
+  diafora = posoApexoumeApoPasxa(thisDate)
   TextArea1.Clear()
   TextArea1.Text = ("Ημερομηνία Πάσχα: " & PasxaDate)
-  TextArea1.Text = TextArea1.Text & ("Απέχουμε απο το Πάσχα: " & diafora & " ημέρες")
+  TextArea1.Text = TextArea1.Text & ("Απέχουμε απο το Πάσχα: " & diafora & " ημέρες" & "\n")
   
-  TextArea1.Text = TextArea1.Text & ("Το πάσχα το " & year1 & " πέφτει στις " & Day(PasxaDate) & "/" & Month(PasxaDate))
+  TextArea1.Text = TextArea1.Text & ("Το πάσχα το " & year1 & " πέφτει στις " & Day(PasxaDate) & "/" & Month(PasxaDate) & "\n")
   
 End
 
@@ -70,9 +71,9 @@ TextArea1.Text = TextArea1.Text & ("Ημερομηνία : " & DateChooser1.Valu
 strStatic = StaticGiortesonDate(DateChooser1.Value)
 KinitesGiortes = KinitesGiortesonDate(DateChooser1.Value)
 If strStatic.Count > 0 Or KinitesGiortes.count > 0 Then
-  TextArea1.Text = TextArea1.Text & "Σήμερα Γιορτάζουν :"
+  TextArea1.Text = TextArea1.Text & "\n" & "Σήμερα Γιορτάζουν :"
 Else
-  TextArea1.Text = TextArea1.Text & "Σήμερα δεν γιορτάζει κανείς"
+  TextArea1.Text = TextArea1.Text & "\n" & "Σήμερα δεν γιορτάζει κανείς"
 End If
 
 
@@ -102,7 +103,7 @@ End
 
 Public Function KinitesGiortesonDate(DateSelected As Date) As String[]
 Dim res As New String[]
-Dim kinith As String
+'Dim kinith As String
 Dim iKinithDiaforaGiorths As Integer
 Dim iKinith As Integer
 
@@ -114,8 +115,8 @@ Dim diaforaHmerwnApoPasxa As Integer
 day1 = Day(DateSelected)
 month1 = Month(DateSelected)
 year1 = Year(DateSelected)
-
-diaforaHmerwnApoPasxa = posoApexoumeApoPasxa(day1, month1, year1, DateSelected)
+' day1, month1, year1,
+diaforaHmerwnApoPasxa = posoApexoumeApoPasxa(DateSelected)
 'res.Add("Διαφορά ημερών απο το πάσχα :" & diaforaHmerwnApoPasxa)
 For iKinith = 0 To kinites.Count - 1 Step 2 'πάρε ανα δυο τα νούμερα
 iKinithDiaforaGiorths = kinites[iKinith]
@@ -134,7 +135,7 @@ Dim myMonth As Integer
 Dim myYear As Integer
 Dim arr_strings As String[]
 
-Dim LineCheckisANewDate As Boolean = False
+'Dim LineCheckisANewDate As Boolean = False
 Dim strToCheck As String
 Dim numOfLines As Integer
 Dim iLineCounter As Integer
@@ -231,7 +232,8 @@ End Function
 
 
 '#poso apexei h dothisa Date apo TO pasxa
-Public Function posoApexoumeApoPasxa(day1 As Integer, month1 As Integer, year1 As Integer, thisDate As Date) As Integer
+'Public Function posoApexoumeApoPasxa(day1 As Integer, month1 As Integer, year1 As Integer, thisDate As Date) As Integer
+Public Function posoApexoumeApoPasxa(thisDate As Date) As Integer
 Dim dateOfPasxa As Date = CalculatePasxaDate(Year(thisDate))
 Dim diafora As Integer
 ' DIM pasxa_month AS Integer = Year(dateOfPasxa)

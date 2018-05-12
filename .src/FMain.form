@@ -2,17 +2,23 @@
 
 { Form Form
   MoveScaled(0,0,64,64)
+  Text = ("Εορτολόγιο Ορθόδοξων Χριστικανικών εορτών")
+  Icon = Picture["calendar.png"]
+  Arrangement = Arrange.Vertical
+  AutoResize = True
   { DateChooser1 DateChooser
     MoveScaled(0,0,64,25)
     Font = Font["+2"]
-  }
-  { btnPasxa Button
-    MoveScaled(0,56,63,7)
-    Text = ("Πότε πέφτει το πάσχα;")
+    Border = False
   }
   { TextArea1 TextArea
     MoveScaled(1,26,62,29)
     Font = Font["+6"]
+    Expand = True
     Text = (" ")
+  }
+  { btnPasxa Button
+    MoveScaled(0,56,63,7)
+    Text = ("Πότε πέφτει το πάσχα;")
   }
 }
